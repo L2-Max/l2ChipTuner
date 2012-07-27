@@ -1,0 +1,125 @@
+#!/bin/sh
+
+# MAKE proj
+# Copyright (c) 2006 Arshinkin Maksim 
+# All rights reserved.
+#
+# Utility projconf to configure other project managemen systems like QT
+
+###############################################
+# Parameters:
+# 1 - project
+# 2 - build configs
+# 3 - where project placed
+# 4 - BOOST dir
+# 5 - SDKs dir
+###############################################
+
+LS=D:/workspace/SDKs/win/MSYS/bin/ls
+if [ ! -f ${LS} ]
+then
+	LS=ls
+fi
+
+RM=D:/workspace/SDKs/win/MSYS/bin/rm
+if [ ! -f ${RM} ]
+then
+	RM=rm
+fi
+
+
+QT_INC_FILE=$3/projdefs.pri
+
+if [ -f ./$3/*.pro ]
+then
+	if [ -f ${QT_INC_FILE} ]
+	then
+		${RM} ${QT_INC_FILE}
+	fi
+	
+	for cur_conf in $2
+	do
+	   L2PROJECTS_DIR=${L2PROJECTS_DIR}
+	   PROJECT_DIR=$1
+		BUILD_CONFIG=$cur_conf
+		
+		. ${L2MAKE_DIR}config/defs.mk
+		
+		case $cur_conf in
+			d)
+				echo "CONFIG(debug,debug|release){" 	>> ${QT_INC_FILE} ;;
+			r)
+				echo "CONFIG(release,debug|release){" >> ${QT_INC_FILE} ;;
+
+			*) echo "no such config" >> ${QT_INC_FILE}
+				exit -1 ;;
+		esac
+		
+		echo "	SDK_DIR=$5"									>> ${QT_INC_FILE}
+		echo "	L2PROJECTS_DIR=${L2PROJECTS_DIR}"	>> ${QT_INC_FILE}
+		echo "	PROJECT_DIR=${PROJECT_DIR}"			>> ${QT_INC_FILE}
+		echo "	DESTDIR=${BUILD_DIR}"					>>	${QT_INC_FILE}
+		echo "	OBJECTS_DIR=${TMP_OBJ_DIR}"			>>	${QT_INC_FILE}
+		echo "	MOC_DIR=${TMP_MOC_DIR}"					>>	${QT_INC_FILE}
+		echo "	UI_DIR=${TMP_UI_DIR}"					>>	${QT_INC_FILE}
+		echo "	RCC_DIR=${TMP_RCC_DIR}"					>>	${QT_INC_FILE}
+		echo "	SRC_DIR=${SRC_DIR}"						>>	${QT_INC_FILE}
+		echo "	TMP_IDL_DIR=${TMP_IDL_DIR}"			>>	${QT_INC_FILE}
+		echo "	TMP_SLIB_DIR=${TMP_SLIB_DIR}"			>>	${QT_INC_FILE}
+		echo "	BOOST_DIR=$4"        					>>	${QT_INC_FILE}
+		
+		
+		echo "}" >> ${QT_INC_FILE}
+	done
+	
+	if [ -d ./$3/${SRC_DIR} ]
+	then
+		SRC_FILES=`${LS} ./$3/${SRC_DIR}*.c*`
+		HDR_FILES=`${LS} ./$3/${SRC_DIR}*.h*`
+	fi
+	
+	if [ -d ./$3/${UI_DIR} ]
+	then
+		UI_FILES=`${LS} ./$3/${UI_DIR}*.ui`
+	fi
+	
+	if [ -n "${SRC_FILES}" ]
+	then
+		echo -n "SOURCES=" >> ${QT_INC_FILE}
+		for srcf in ${SRC_FILES}
+		do
+			echo "\\" >> ${QT_INC_FILE}
+			echo -n "	${srcf#./$3/}" >> ${QT_INC_FILE}
+		done
+		
+		echo "" >> ${QT_INC_FILE}
+	fi
+	
+	if [ -n "${HDR_FILES}" ]
+	then
+		echo -n "HEADERS=" >> ${QT_INC_FILE}
+		for hdrf in ${HDR_FILES}
+		do
+			echo "\\" >> ${QT_INC_FILE}
+			echo -n "	${hdrf#./$3/}" >> ${QT_INC_FILE}
+		done
+		
+		echo "" >> ${QT_INC_FILE}
+	fi
+	
+	if [ -n "${UI_FILES}" ]
+	then
+		echo -n "FORMS=" >> ${QT_INC_FILE}
+		for frmf in ${UI_FILES}
+		do
+			echo "\\" >> ${QT_INC_FILE}
+			echo -n "	${frmf#./$3/}" >> ${QT_INC_FILE}
+		done
+		
+		echo "" >> ${QT_INC_FILE}
+	fi
+	
+	exit 0
+else
+	exit 1
+fi

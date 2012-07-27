@@ -1,0 +1,39 @@
+<RCC>
+	<qresource prefix="/Main">
+		<file>logo_l2ChipTuner.png</file>
+	</qresource>
+	
+	<qresource prefix="/Menu/Main">
+		<file>menuMainPreferences.png</file>
+	</qresource>
+	
+	<qresource prefix="/Menu/View">
+		<file>menuViewMonitor.png</file>
+		<file>menuViewError.png</file>
+		<file>menuViewFlowMeter.png</file>
+		<file>menuViewPacketSelection.png</file>
+	</qresource>
+	
+	<qresource prefix="/Menu/Device">
+		<file>menuDeviceStartDiagnosticSession.png</file>
+		<file>menuDeviceStopDiagnosticSession.png</file>
+		<file>menuDevicePeriodicalTransmission.png</file>
+		<file>menuDeviceShapshot.png</file>
+	</qresource>
+	
+	<qresource prefix="/Menu/Meter">
+		<file>menuMeterMeasureUnits.png</file>
+		<file>menuMeterGraph.png</file>
+		<file>menuMeterGraphWindow.png</file>
+		<file>menuMeterGraphView.png</file>
+		<file>menuMeterGraphClose.png</file>
+		<file>menuMeterGraphCloseAll.png</file>
+	</qresource>
+
+	<qresource prefix="/Device/View">
+		<file>deviceViewErrorHasError.png</file>
+		<file>deviceViewErrorNoError.png</file>
+		<file>deviceViewMonitorUnitRDO.png</file>
+		<file>deviceViewMonitorUnitRW.png</file>
+	</qresource>
+</RCC>

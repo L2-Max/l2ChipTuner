@@ -1,0 +1,55 @@
+/* MAKE proj
+ * Copyright (c) 2006 Arshinkin Maksim 
+ * All rights reserved.
+ */
+.
+|   proj.mk				- contain main targets as build,distclean and clean 
+|   README				- this file
+|   subdirs.mk			- contains rule for transfering targets to all subdirs
+|
++---config
+|       config.mk		- configuration file
+|
++---example				- example
+|   |   Makefile
+|   |
+|   +---inc
+|   |       test.h
+|   |
+|   \---src
+|           main.cpp
+|
+\---platforms			- settings for specific platform
+        unix.mk
+        win32.mk
+
+This MAKE project required following variables:
+
+platforms - specified platform where MAKE proj is using (win32,unix)
+
+SUBDIRS - contain directories where make should be run
+
+BUILD_ROOT_DIR	- where project should be built
+MAKE_PROJ_DIR - where 'MAKE proj' placed
+
+/* Note, for handle build configuration use BUILD_CONFIG with '-e' flags.
+ */
+BUILD_CONFIG - buid configuration (d - debug, r - release)
+
+MODULE_TYPE - app, dll, lib
+MODULE_PATH - directory where module should be built
+MODULE_NAME - name of module
+
+BUILD_LOG_LEVEL - Determines log level when build. 0 - full log, 1 - short log (like VS)
+
+CFLAGS - compiler flags
+LFLAGS - linker flags
+
+
+/* IMPORTANT!!! Note, you should use '+=' operator so as to not override existing
+ */
+
+INCLUDE_PATH - path to additional include directory
+LIBRARY_PATH - path to additional libraries
+
+LIBS - additional libraries
